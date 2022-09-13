@@ -1,11 +1,22 @@
+ROUNDING_ACCURACY = 1e-10
+
+
+def is_close(lhs: float, rhs: float, accuracy: float = ROUNDING_ACCURACY) -> bool:
+    return abs(lhs - rhs) < accuracy
+
+
 def solve_quadratic(a: float, b: float, c: float) -> tuple:
-    D = b ** 2 - 2 * a
+    if is_close(a, 0):
+        raise ValueError("Incorrect quadratic equation")
+    
+    D = b ** 2 - 4 * a * c
     if D < 0:
         return None
-    if abs(a) < 1e-6:
-        raise ValueError("Input correct quadratic equation")
-    if D == 0:
-        return -b / (2 * a)
+    
+    if is_close(D, 0):
+        return (-b / (2 * a),)
+    
+    D = D ** (1 / 2)
     return ((-b - D) / (2 * a), (-b + D) / (2 * a))
 
 
