@@ -1,1 +1,8 @@
+# Python3 virtual environment
 py3ve
+
+# Python cache
+__pycache__
+
+# Jupyter Notebook cache
+.ipynb_checkpoints
