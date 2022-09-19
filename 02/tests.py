@@ -1,25 +1,28 @@
 import utils
 
 
-if __name__ == "__main__":
-    statistic = {}
+# unit tests for 'merge_with_set' function
+assert utils.get_min_abs([]) == []
+assert utils.get_min_abs([-1, 0, 1]) == [0]
+assert utils.get_min_abs([-5, 9, 6, -8]) == [-5]
+assert utils.get_min_abs([-1, 2, -5, 1, -1]) == [-1, 1, -1]
 
-    def statistic_callback(keyword: str):
-        if keyword in statistic:
-            statistic[keyword] += 1
-        else:
-            statistic[keyword] = 1
+# unit tests for 'merge_with_set' function
+assert utils.merge_with_set([], []) == []
+assert utils.merge_with_set((1, 2), []) == []
+assert utils.merge_with_set((), [3, 4]) == []
+assert utils.merge_with_set((1,), [1]) == [1]
+assert utils.merge_with_set([1, 3, 5], [2, 4, 6]) == []
+assert utils.merge_with_set([1, 2, 3], (1, 2, 3)) == [1, 2, 3]
+assert utils.merge_with_set([1, 1, 2, 5, 7], (1, 1, 2, 3, 4, 7)) == [1, 2, 7]
 
-    # unit tests for 'parse_json' function
-    utils.parse_json('', keyword_callback=None)
+# unit tests for 'merge' function
+assert utils.merge([], []) == []
+assert utils.merge((1, 2), []) == []
+assert utils.merge((), [3, 4]) == []
+assert utils.merge((1,), [1]) == [1]
+assert utils.merge([1, 3, 5], [2, 4, 6]) == []
+assert utils.merge([1, 2, 3], (1, 2, 3)) == [1, 2, 3]
+assert utils.merge([1, 1, 2, 5, 7], (1, 1, 2, 3, 4, 7)) == [1, 2, 7]
 
-    required_fields = ["key1"]
-    keywords = ["word2"]
-    utils.parse_json('{"key1": "Word1 word2 word2", "key2": "word2 word3"}',
-                     required_fields, keywords, keyword_callback=statistic_callback)
-    assert statistic == {"word2": 2}
-
-    for _ in range(10):
-        utils.foo()
-
-    print("All tests passed!")
+print("All tests passed!")

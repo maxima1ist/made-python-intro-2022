@@ -1,48 +1,40 @@
-def get_min_abs(arr: list) -> list:
-    if not arr:
-        return []
+import json
+import time
+from datetime import datetime as dt
 
-    curr_res = []
-    min_abs = abs(arr[0])
-    for el in arr:
-        curr_abs = abs(el)
+__k_last_call = []
 
-        if curr_abs > min_abs:
+
+def parse_json(json_str: str, required_fields=None, keywords=None, *, keyword_callback):
+    if not str or not required_fields or not keywords or not keyword_callback:
+        return
+
+    json_doc = json.loads(json_str)
+    for field in json_doc:
+        if field not in required_fields:
             continue
-
-        if curr_abs < min_abs:
-            curr_res.clear()
-            min_abs = curr_abs
-
-        curr_res.append(el)
-
-    return curr_res
+        for word in json_doc[field].split():
+            if word not in keywords:
+                continue
+            keyword_callback(word)
 
 
-def merge_with_set(lhs, rhs) -> list:
-    return sorted(set(lhs).intersection(set(rhs)))
+def mean(k):
+    def inner_mean(func):
+        def wrapper(*args, **kwargs):
+            start = dt.now()
+            func(*args, **kwargs)
+            end = dt.now()
+            total = (end - start).microseconds
+            __k_last_call.append(total)
+            if len(__k_last_call) > k:
+                __k_last_call.pop(0)
+            print("Mean time for {} calls is {}.".format(
+                len(__k_last_call), sum(__k_last_call) / len(__k_last_call)))
+        return wrapper
+    return inner_mean
 
 
-def merge(lhs, rhs) -> list:
-    if not lhs or not rhs:
-        return []
-
-    res = []
-    liter = iter(lhs)
-    riter = iter(rhs)
-    lvalue = next(liter)
-    rvalue = next(riter)
-    while True:
-        try:
-            if lvalue == rvalue:
-                if not res or res[-1] != lvalue:
-                    res.append(lvalue)
-                rvalue = next(riter)
-                lvalue = next(liter)
-            elif lvalue > rvalue:
-                rvalue = next(riter)
-            else:  # lvalue < rvalue
-                lvalue = next(liter)
-        except StopIteration:
-            break
-    return res
+@mean(5)
+def foo():
+    time.sleep(1)
