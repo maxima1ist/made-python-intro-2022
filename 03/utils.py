@@ -1,8 +1,5 @@
 import json
-import time
-from datetime import datetime as dt
-
-__k_last_call = []
+import timeit
 
 
 def parse_json(json_str: str, required_fields=None, keywords=None, *, keyword_callback):
@@ -22,19 +19,17 @@ def parse_json(json_str: str, required_fields=None, keywords=None, *, keyword_ca
 def mean(k):
     def inner_mean(func):
         def wrapper(*args, **kwargs):
-            start = dt.now()
+            start = timeit.default_timer()
             func(*args, **kwargs)
-            end = dt.now()
-            total = (end - start).microseconds
-            __k_last_call.append(total)
-            if len(__k_last_call) > k:
-                __k_last_call.pop(0)
-            print("Mean time for {} calls is {}.".format(
-                len(__k_last_call), sum(__k_last_call) / len(__k_last_call)))
+            end = timeit.default_timer()
+            total = round(end - start, 2)
+            mean.__k_last_call.append(total)
+            if len(mean.__k_last_call) > k:
+                mean.__k_last_call.pop(0)
+            print("Current time is {} sec. Mean time for {} calls is {} sec.".format(
+                total, len(mean.__k_last_call), round(sum(mean.__k_last_call) / len(mean.__k_last_call), 2)))
         return wrapper
     return inner_mean
 
 
-@mean(5)
-def foo():
-    time.sleep(1)
+mean.__k_last_call = []
