@@ -17,19 +17,23 @@ def parse_json(json_str: str, required_fields=None, keywords=None, *, keyword_ca
 
 
 def mean(k):
+    k_last_call = []
+
     def inner_mean(func):
         def wrapper(*args, **kwargs):
             start = timeit.default_timer()
-            func(*args, **kwargs)
+            res = func(*args, **kwargs)
             end = timeit.default_timer()
             total = round(end - start, 2)
-            mean.__k_last_call.append(total)
-            if len(mean.__k_last_call) > k:
-                mean.__k_last_call.pop(0)
+
+            k_last_call.append(total)
+            if len(k_last_call) > k:
+                k_last_call.pop(0)
+
             print("Current time is {} sec. Mean time for {} calls is {} sec.".format(
-                total, len(mean.__k_last_call), round(sum(mean.__k_last_call) / len(mean.__k_last_call), 2)))
+                total, len(k_last_call),
+                round(sum(k_last_call) / len(k_last_call), 3)))
+
+            return res
         return wrapper
     return inner_mean
-
-
-mean.__k_last_call = []
