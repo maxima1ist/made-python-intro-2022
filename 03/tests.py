@@ -40,16 +40,25 @@ if __name__ == "__main__":
                      required_fields, keywords, keyword_callback=statistic_callback)
     assert statistic == {"word1": 2, "word2": 3}
 
-    sleep_len = 1.
+    sleep_len = 0.
 
-    @utils.mean(5)
+    @utils.mean(3)
     def foo():
         global sleep_len
         time.sleep(sleep_len)
-        sleep_len += 0.1
+        sleep_len += 0.01
+        return "called foo"
+
+    @utils.mean(5)
+    def foo_other():
+        global sleep_len
+        time.sleep(sleep_len)
+        sleep_len += 0.01
+        return "called foo_other"
 
     # test 'parse_json' function
     for _ in range(10):
-        foo()
+        assert "called foo" == foo()
+        assert "called foo_other" == foo_other()
 
     print("All tests passed!")
