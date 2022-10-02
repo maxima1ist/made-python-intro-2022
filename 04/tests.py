@@ -1,24 +1,44 @@
 from custom_list import CustomList
 
+
+def compare_element_by_element(lhs: CustomList, rhs: CustomList) -> bool:
+    if len(lhs) != len(rhs):
+        return False
+
+    for i in range(len(lhs)):
+        if lhs[i] != rhs[i]:
+            return False
+
+    return True
+
+
 if __name__ == "__main__":
     # operator +
-    assert CustomList() + CustomList() == CustomList()
-    assert [] + CustomList() == CustomList()
-    assert CustomList([1, 2]) + CustomList() == CustomList([1, 2])
-    assert [1, 2] + CustomList() == CustomList([1, 2])
-    assert CustomList([5, 1, 3, 7]) + [1, 2, 7] == CustomList([6, 3, 10, 7])
-    assert CustomList([5, 1, 3, 7]) + CustomList([1, 2, 7]) \
-        == CustomList([6, 3, 10, 7])
+    assert compare_element_by_element(CustomList() + CustomList(),
+                                      CustomList())
+    assert compare_element_by_element([] + CustomList(),
+                                      CustomList())
+    assert compare_element_by_element(CustomList([1, 2]) + CustomList(),
+                                      CustomList([1, 2]))
+    assert compare_element_by_element([1, 2] + CustomList(),
+                                      CustomList([1, 2]))
+    assert compare_element_by_element(CustomList([5, 1, 3, 7]) + [1, 2, 7],
+                                      CustomList([6, 3, 10, 7]))
+    assert compare_element_by_element(CustomList([5, 1, 3, 7]) + CustomList([1, 2, 7]),
+                                      CustomList([6, 3, 10, 7]))
 
     # operator -
-    assert CustomList() - CustomList() == CustomList()
-    assert CustomList() - [] == CustomList()
-    assert CustomList() - [1, 2] == CustomList([-1, -2])
-    assert [1, 2] - CustomList() == CustomList([1, 2])
-    assert CustomList([5, 1, 3, 7]) - [1, 2, 7] == CustomList([4, -1, -4, 7])
-    assert CustomList([5, 1, 3, 7]) - CustomList([1, 2, 7]) == CustomList(
-        [4, -1, -4, 7]
-    )
+    assert compare_element_by_element(CustomList() - CustomList(),
+                                      CustomList())
+    assert compare_element_by_element(CustomList() - [], CustomList())
+    assert compare_element_by_element(CustomList() - [1, 2],
+                                      CustomList([-1, -2]))
+    assert compare_element_by_element([1, 2] - CustomList(),
+                                      CustomList([1, 2]))
+    assert compare_element_by_element(CustomList([5, 1, 3, 7]) - [1, 2, 7],
+                                      CustomList([4, -1, -4, 7]))
+    assert compare_element_by_element(CustomList([5, 1, 3, 7]) - CustomList([1, 2, 7]),
+                                      CustomList([4, -1, -4, 7]))
 
     # operator <
     assert CustomList() < CustomList([1, 2, 3])
