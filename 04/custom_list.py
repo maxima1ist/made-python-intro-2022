@@ -3,6 +3,9 @@ Package with custome list implementation.
 """
 
 
+from itertools import zip_longest
+
+
 class CustomList(list):
     """
     This is custome list implementation.
@@ -19,33 +22,21 @@ class CustomList(list):
         else:
             super().__init__()
 
+    @staticmethod
+    def __make_operator(lhs, rhs, operator):
+        return [operator(value[0], value[1]) for value in zip_longest(lhs, rhs, fillvalue=0)]
+
     def __add__(self, other):
-        result = CustomList()
-
-        self_len = len(self)
-        other_len = len(other)
-        for i in range(min(self_len, other_len)):
-            result.append(self[i] + other[i])
-
-        if self_len < other_len:
-            for i in range(self_len, other_len):
-                result.append(other[i])
-        elif self_len > other_len:
-            for i in range(other_len, self_len):
-                result.append(self[i])
-
-        return result
+        return CustomList.__make_operator(self, other, lambda x, y: x + y)
 
     def __radd__(self, other):
-        return self + other
+        return CustomList.__make_operator(self, other, lambda x, y: y + x)
 
     def __sub__(self, other):
-        buffer = CustomList([-value for value in other])
-        return self + buffer
+        return CustomList.__make_operator(self, other, lambda x, y: x - y)
 
     def __rsub__(self, other):
-        buffer = CustomList([-value for value in self])
-        return buffer + other
+        return CustomList.__make_operator(self, other, lambda x, y: y - x)
 
     @property
     def sum(self):
