@@ -69,3 +69,14 @@ class CustomList(list):
     def append(self, value):
         self.__sum += value
         return super().append(value)
+
+    def pop(self, key):
+        self.__sum -= self[key]
+
+        return super().pop(key)
+
+    def __setitem__(self, key, value):
+        self.__sum -= self[key]
+        self.__sum += value
+
+        return super().__setitem__(key, value)
