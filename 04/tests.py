@@ -12,7 +12,7 @@ def compare_element_by_element(lhs: CustomList, rhs: CustomList) -> bool:
     return True
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # operator +
     assert compare_element_by_element(CustomList() + CustomList(),
                                       CustomList())
@@ -66,10 +66,10 @@ if __name__ == "__main__":
 
     # to string
     ltest = []
-    assert str(CustomList(ltest)) == f"{ltest}, sum is {sum(ltest)}"
+    assert str(CustomList(ltest)) == f'{ltest}, sum is {sum(ltest)}'
     ltest = [1, -1]
-    assert str(CustomList(ltest)) == f"{ltest}, sum is {sum(ltest)}"
+    assert str(CustomList(ltest)) == f'{ltest}, sum is {sum(ltest)}'
     ltest = [1, 2, 3]
-    assert str(CustomList(ltest)) == f"{ltest}, sum is {sum(ltest)}"
+    assert str(CustomList(ltest)) == f'{ltest}, sum is {sum(ltest)}'
 
-    print("All tests passed!")
+    print('All tests passed!')

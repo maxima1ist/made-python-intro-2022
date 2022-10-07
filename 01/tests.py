@@ -29,4 +29,4 @@ arr = [value for value in range(-10000, 10000)]
 assert my_math.split_by_even(arr) == ([value for value in arr if value % 2 == 0],
                                       [value for value in arr if value % 2 == 1])
 
-print("All tests passed!")
+print('All tests passed!')

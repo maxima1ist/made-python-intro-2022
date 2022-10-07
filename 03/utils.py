@@ -30,7 +30,7 @@ def mean(k):
             if len(k_last_call) > k:
                 k_last_call.pop(0)
 
-            print("Current time is {} sec. Mean time for {} calls is {} sec.".format(
+            print('Current time is {} sec. Mean time for {} calls is {} sec.'.format(
                 total, len(k_last_call),
                 round(sum(k_last_call) / len(k_last_call), 3)))
 

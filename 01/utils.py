@@ -7,7 +7,7 @@ def is_close(lhs: float, rhs: float, accuracy: float = ROUNDING_ACCURACY) -> boo
 
 def solve_quadratic(a: float, b: float, c: float) -> tuple:
     if is_close(a, 0):
-        raise ValueError("Incorrect quadratic equation")
+        raise ValueError('Incorrect quadratic equation')
 
     d = b ** 2 - 4 * a * c
     if d < 0:

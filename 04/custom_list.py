@@ -1,17 +1,17 @@
-"""
-Package with custome list implementation.
-"""
+'''
+Module with custome list implementation.
+'''
 
 
 from itertools import zip_longest
 
 
 class CustomList(list):
-    """
+    '''
     This is custome list implementation.
     Addition and subtraction operations are supported, \
     as well as comparisons by the sum of elements.
-    """
+    '''
 
     def __init__(self, values: list = None):
         self.__sum = 0
@@ -40,9 +40,9 @@ class CustomList(list):
 
     @property
     def sum(self):
-        """
+        '''
         It is the sum of CustomList elements.
-        """
+        '''
         return self.__sum
 
     def __lt__(self, other):
@@ -64,7 +64,7 @@ class CustomList(list):
         return self.sum >= other.sum
 
     def __str__(self):
-        return f"{super().__str__()}, sum is {self.sum}"
+        return f'{super().__str__()}, sum is {self.sum}'
 
     def append(self, value):
         self.__sum += value
