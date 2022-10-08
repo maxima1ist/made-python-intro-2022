@@ -6,3 +6,6 @@ __pycache__
 
 # Jupyter Notebook cache
 .ipynb_checkpoints
+
+# vscode settings
+.vscode

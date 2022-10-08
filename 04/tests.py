@@ -5,8 +5,8 @@ def compare_element_by_element(lhs: CustomList, rhs: CustomList) -> bool:
     if len(lhs) != len(rhs):
         return False
 
-    for i in range(len(lhs)):
-        if lhs[i] != rhs[i]:
+    for _, (lvalue, rvalue) in enumerate(zip(lhs, rhs)):
+        if lvalue != rvalue:
             return False
 
     return True
@@ -71,5 +71,23 @@ if __name__ == '__main__':
     assert str(CustomList(ltest)) == f'{ltest}, sum is {sum(ltest)}'
     ltest = [1, 2, 3]
     assert str(CustomList(ltest)) == f'{ltest}, sum is {sum(ltest)}'
+
+    # check operatos +, - are const
+    lhs = CustomList([1, 2, 3])
+    rhs = CustomList([4, 5, 6])
+    sum_res = lhs + rhs
+    sub_res = lhs - rhs
+
+    assert isinstance(sum_res, CustomList)
+    assert isinstance(lhs, CustomList)
+    assert compare_element_by_element(lhs, CustomList([1, 2, 3]))
+    assert isinstance(rhs, CustomList)
+    assert compare_element_by_element(rhs, CustomList([4, 5, 6]))
+
+    assert isinstance(sub_res, CustomList)
+    assert isinstance(lhs, CustomList)
+    assert compare_element_by_element(lhs, CustomList([1, 2, 3]))
+    assert isinstance(rhs, CustomList)
+    assert compare_element_by_element(rhs, CustomList([4, 5, 6]))
 
     print('All tests passed!')

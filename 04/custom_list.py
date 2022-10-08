@@ -13,18 +13,9 @@ class CustomList(list):
     as well as comparisons by the sum of elements.
     '''
 
-    def __init__(self, values: list = None):
-        self.__sum = 0
-        if values:
-            super().__init__(values)
-            for value in values:
-                self.__sum += value
-        else:
-            super().__init__()
-
     @staticmethod
     def __make_operator(lhs, rhs, operator):
-        return [operator(value[0], value[1]) for value in zip_longest(lhs, rhs, fillvalue=0)]
+        return CustomList([operator(value[0], value[1]) for value in zip_longest(lhs, rhs, fillvalue=0)])
 
     def __add__(self, other):
         return CustomList.__make_operator(self, other, lambda x, y: x + y)
@@ -38,45 +29,23 @@ class CustomList(list):
     def __rsub__(self, other):
         return CustomList.__make_operator(self, other, lambda x, y: y - x)
 
-    @property
-    def sum(self):
-        '''
-        It is the sum of CustomList elements.
-        '''
-        return self.__sum
-
     def __lt__(self, other):
-        return self.sum < other.sum
+        return sum(self) < sum(other)
 
     def __le__(self, other):
-        return self.sum <= other.sum
+        return sum(self) <= sum(other)
 
     def __eq__(self, other):
-        return self.sum == other.sum
+        return sum(self) == sum(other)
 
     def __ne__(self, other):
-        return self.sum != other
+        return sum(self) != sum(other)
 
     def __gt__(self, other):
-        return self.sum > other.sum
+        return sum(self) > sum(other)
 
     def __ge__(self, other):
-        return self.sum >= other.sum
+        return sum(self) >= sum(other)
 
     def __str__(self):
-        return f'{super().__str__()}, sum is {self.sum}'
-
-    def append(self, value):
-        self.__sum += value
-        return super().append(value)
-
-    def pop(self, key):
-        self.__sum -= self[key]
-
-        return super().pop(key)
-
-    def __setitem__(self, key, value):
-        self.__sum -= self[key]
-        self.__sum += value
-
-        return super().__setitem__(key, value)
+        return f'{super().__str__()}, sum is {sum(self)}'
