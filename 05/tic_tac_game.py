@@ -1,13 +1,7 @@
-'''
-Module with X&0 game.
-'''
+from exceptions import InvalidInputError, NotNumberError, OutOfRangeError, TakenCellError
 
 
 class TicTacGame:
-    '''
-    Class for X&0 game.
-    '''
-
     def __init__(self):
         self.__board = list(range(1, 10))
 
@@ -18,24 +12,21 @@ class TicTacGame:
                   self.__board[2 + i * 3])
 
     def validate_input(self, player_token):
-        while True:
-            print(f'Where will we put {player_token}?')
-            try:
-                player_answer = int(input())
-            except ValueError:
-                print('Invalid input. Please, enter the number.')
-                continue
+        print(f'Where will we put {player_token}?')
+        try:
+            player_answer = int(input())
+        except ValueError as err:
+            raise NotNumberError(
+                'Please, enter the number.') from err
 
-            if player_answer < 1 or 9 < player_answer:
-                print('Invalid input. Please, enter the number from 1 to 9.')
-                continue
+        if player_answer < 1 or 9 < player_answer:
+            raise OutOfRangeError(
+                'Please, enter the number from 1 to 9.')
 
-            if str(self.__board[player_answer - 1]) in 'XO':
-                print('This cell is already taken.')
-                continue
+        if str(self.__board[player_answer - 1]) in 'XO':
+            raise TakenCellError('This cell is already taken.')
 
-            self.__board[player_answer - 1] = player_token
-            break
+        self.__board[player_answer - 1] = player_token
 
     def check_winner(self):
         winner_coords = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6),
@@ -54,10 +45,13 @@ class TicTacGame:
         while True:
             self.show_board()
 
-            if counter % 2 == 0:
-                self.validate_input(first)
-            else:
-                self.validate_input(second)
+            while True:
+                try:
+                    self.validate_input(first if counter % 2 == 0 else second)
+                    break
+                except InvalidInputError as err:
+                    print(f"Invalid input. {err}")
+                    continue
 
             counter += 1
             if counter > 4:

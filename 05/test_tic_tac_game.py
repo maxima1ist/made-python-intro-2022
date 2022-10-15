@@ -3,6 +3,7 @@ import unittest
 from io import StringIO
 from unittest import mock
 
+from exceptions import NotNumberError, OutOfRangeError, TakenCellError
 from tic_tac_game import TicTacGame
 
 
@@ -37,25 +38,36 @@ class TestTicTac(unittest.TestCase):
         game = TicTacGame()
         with mock.patch('builtins.input',
                         side_effect=['abc', '23', '1', '1', '2']):
-            game.validate_input('X')
+            while True:
+                try:
+                    game.validate_input('X')
+                    break
+                except (NotNumberError, OutOfRangeError) as err:
+                    print(err)
+                    continue
             output = sys.stdout.getvalue().strip().splitlines()
-            # self.assertEqual(len(output), 8)
+            self.assertEqual(len(output), 8)
 
             # invalid input: not a number
             self.assertEqual(output[3], 'Where will we put X?')
             self.assertEqual(output[4],
-                             'Invalid input. Please, enter the number.')
+                             'Please, enter the number.')
 
             # invalid input: out of the range
             self.assertEqual(output[5], 'Where will we put X?')
             self.assertEqual(output[6],
-                             'Invalid input. \
-                              Please, enter the number from 1 to 9.')
+                             'Please, enter the number from 1 to 9.')
 
             # step: put X to 1
             self.assertEqual(output[7], 'Where will we put X?')
             game.show_board()
-            game.validate_input('0')
+            while True:
+                try:
+                    game.validate_input('0')
+                    break
+                except TakenCellError as err:
+                    print(err)
+                    continue
             output = sys.stdout.getvalue().strip().splitlines()
             self.assertEqual(len(output), 14)
             self.assertEqual(output[8], 'X   2   3')
