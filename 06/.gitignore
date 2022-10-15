@@ -12,3 +12,6 @@ __pycache__
 
 # vscode settings
 .vscode
+
+# coverage cache
+.coverage
