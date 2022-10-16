@@ -5,7 +5,7 @@ from unittest import mock
 from filter_reader import read_if_find
 
 
-class ChunkReaderTest(unittest.TestCase):
+class ReadIfFindTest(unittest.TestCase):
     def test_read_if_find(self):
         fake_file = io.StringIO("Load up on guns, bring your friends\n"
                                 "It's fun to lose and to pretend\n"
