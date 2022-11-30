@@ -1,0 +1,4 @@
+pylint==2.15.7
+flake8==6.0.0
+autopep8==2.0.0
+memory-profiler==0.61.0
