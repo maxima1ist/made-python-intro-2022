@@ -1,9 +1,14 @@
 # python virtual environment
 **/.venv
 
-# pytest cache
+# python cache
 **/__pycache__
+
+# pytest cache
 .pytest_cache
+
+# pytest cache
+.mypy_cache
 
 # vscode settings
 .vscode
